@@ -1,0 +1,16 @@
+.circle{
+        position        : relative;
+        background      : white;
+        width           : 30px;
+        height          : 30px;
+        border-radius   : 100%;
+}
+.pos_abs{
+        position: absolute;
+}
+.center_abs{
+        position: absolute;
+        top         : 50%;
+        left        : 50%;
+        transform   : translate(-50%, -50%);        
+}
