@@ -9,4 +9,4 @@ function BoardContainer() {
         )
 }
 
-export default BoardContainer
+export default BoardContainer;
