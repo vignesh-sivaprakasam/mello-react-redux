@@ -1,0 +1,8 @@
+.boardContainer{
+        display             : flex;
+        background-color    : #d9dcdd;
+        flex                : 1;
+}
+.boardContainer > * {
+        padding: 20px;
+}
