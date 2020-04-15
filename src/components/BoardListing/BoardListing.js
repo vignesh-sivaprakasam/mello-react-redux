@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
+import BoardListItem from './BoardListItem.js';
 import { getBoardList } from '../../redux/BoardList/BoardListActions';
 
 import '../../common.css';
@@ -15,19 +16,17 @@ function BoardListing(props) {
                 props.fetchBoardList();
         },[]);
         return (
-                
                 <div style={styles} className="center_abs">
                         <div className="board_list_container flex flex_column">
                                 <div className="text_center"> My Boards</div>
                                 <div className="board_list">
-                                {props.boards.map((board)=> {
-                                        return <p key={board.id} >{board.name}</p>
-                                })}
+                                {
+                                        props.boards.length !== 0 ? props.boards.map(board => <BoardListItem key={board._id} name={board.name} />) : null
+                                }
                                 </div>
                                 <div className="text_center create_board cursor_pointer"> + Create Board</div>
                         </div>
-                </div>
-                
+                </div>    
         );
 }
 
