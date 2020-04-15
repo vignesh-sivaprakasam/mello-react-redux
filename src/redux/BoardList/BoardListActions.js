@@ -1,5 +1,12 @@
-import {GET_BOARD_LIST} from './BoardListTypes.js';
+import {GET_BOARD_LIST , GET_BOARD_LIST_SUCCESS} from './BoardListTypes.js';
 import axios from 'axios';
+
+const getBoardsSuccess =  (boards) => {
+        return {
+                type   : GET_BOARD_LIST_SUCCESS,
+                boards : boards
+        }
+}
 
 export const getBoardList = () => {
         return (dispatch) => {
@@ -7,6 +14,7 @@ export const getBoardList = () => {
                 .then(response => {
                         const boards = response.data;
                         console.log("boards : :", boards);
+                        dispatch(getBoardsSuccess(boards));
                 })
                 .catch(error => {
                         console.log("error : ",error);
