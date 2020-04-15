@@ -5,5 +5,4 @@ import { boardListReducer } from './BoardList/BoardListReducer';
 import logger from 'redux-logger';
 
 const store = createStore(boardListReducer, composeWithDevTools(applyMiddleware(logger, thunk)));
-console.log("store : ",store.getState());
 export default store;
