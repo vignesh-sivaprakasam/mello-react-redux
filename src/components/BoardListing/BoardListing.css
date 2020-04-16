@@ -13,3 +13,7 @@
         background    : #ececec;
         overflow: scroll;
 }
+
+.create_board{
+        color: var(--primary_color);
+}

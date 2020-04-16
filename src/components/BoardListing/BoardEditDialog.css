@@ -1,0 +1,36 @@
+.board_edit_container {
+        border-radius   : 10px;
+        background      : white;
+        height          : 100%;
+}
+.board_edit_container > * {
+        padding: 15px;
+}
+.labelContainer {
+        margin-top: 25px;
+}
+.labelContainer > * {
+        margin-top    : 7px;
+        margin-bottom : 7px;
+}
+
+.board_name_title, .board_description_title, .board_color_title{
+        color : #747474;
+}
+.board_name_value, .board_description_value{
+        border-radius   : 10px;
+        border          : 1px solid #e3e3e3;
+        cursor          : text;
+        padding-top     : 12px;
+        padding-left    : 10px;
+}
+
+.board_name_value {
+        height          : 30px;
+}
+.board_description_value {
+        height          : 100px;
+}
+.edit_header , .edit_footer{
+        background: #ececec;
+}
