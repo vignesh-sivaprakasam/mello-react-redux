@@ -5,7 +5,6 @@ export const boardListReducer = (state = [], action) => {
                 case GET_BOARD_LIST:
                         return state;
                 case GET_BOARD_LIST_SUCCESS:
-                        console.log("Boardlist reducer : : ", state)
                         return [...state, ...action.boards];
                 default:
                         return state;

@@ -4,7 +4,7 @@ import store from './redux/Store';
 
 import TopBar from './components/TopBar/TopBar';
 import MiddleBar from './components/MiddleBar/MiddleBar';
-import BoardListing from './components/BoardListing/BoardListing';
+import BoardListingContainer from './components/BoardListing/BoardListingContainer';
 
 class App extends Component {
   render() {
@@ -13,7 +13,7 @@ class App extends Component {
                 <Provider store={store}>
                         <TopBar />
                         <MiddleBar />
-                        <BoardListing />
+                        <BoardListingContainer />
                 </Provider>                 
         </React.Fragment>     
     );

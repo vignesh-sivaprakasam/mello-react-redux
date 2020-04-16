@@ -1,0 +1,19 @@
+.color_container {
+        justify-content: space-around;
+}
+
+.color_item {
+        width             : 30px;
+        height            : 30px;
+        justify-content   : center;
+        align-items       : center;
+}
+.color_holder {
+        width           : 15px;
+        height          : 15px;
+        border-radius   : 100%;
+}
+.color_item.active > .color_holder {
+        height    : 30px;
+        width     : 30px;
+}
