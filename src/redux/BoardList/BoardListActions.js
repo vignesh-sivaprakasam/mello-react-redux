@@ -1,4 +1,4 @@
-import {GET_BOARD_LIST , GET_BOARD_LIST_SUCCESS} from './BoardListTypes.js';
+import {GET_BOARD_LIST_SUCCESS} from './BoardListTypes.js';
 import { domain } from '../../domain';
 import axios from 'axios';
 

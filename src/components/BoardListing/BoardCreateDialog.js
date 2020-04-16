@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useRef, useEffect} from 'react';
+import ColorPicker from '../ColorPicker/ColorPicker';
 
 const styles = {
         width  : '400px',
@@ -7,17 +8,48 @@ const styles = {
 const justifyContentEnd = {
         justifyContent: 'flex-end'
 }
-function BoardCreateDialog() {
+function BoardCreateDialog(props) {
+
+        const [color, setColor] = useState(ColorPicker.getDefaultColor());
+        const nameRef = useRef(null);
+
+        useEffect(()=>{
+                nameRef.current.textContent = "";
+        },[]);
+
+        const onColorChange = (newColor) => {
+                console.log("color Changed:: ", newColor);
+                setColor(newColor);
+        }
+        const onCreateClick = () => {
+                console.log(" ", nameRef.current.textContent,  " color :", color);
+                props.onCreate();
+        }
+
+        const onCancelClick = () => {
+                props.onCancel();
+        }
+
+
         return (
                 <div style={styles} className="center_abs">
-                        <div className="board_list_container flex flex_column">
-                                <div className="text_center"> Create Board</div>
-                                <div className="board_list">
-                                
+                        <div className="board_edit_container flex flex_column">
+                                <div className="edit_header text_center"> Create Board</div>
+                                <div className="flex1">
+                                        <div className="labelContainer">
+                                                <div className="board_name_title">Name</div>
+                                                <div ref={nameRef} contentEditable="true" className="board_name_value"></div>
+                                        </div>
+                                        <div className="labelContainer">
+                                                <div className="board_color_title">Color</div>
+                                                <div className="board_color_value">
+                                                        <ColorPicker activeColor={color} onColorChange={onColorChange}/>
+                                                </div>
+                                        </div>
                                 </div>
-                                <div style={justifyContentEnd} className="flex">
-                                        <div className="save cursor_pointer">Create</div>
-                                        <div className="cancel cursor_pointer">Cancel</div>
+                                <div style={justifyContentEnd} className="edit_footer flex">
+                                        <div className="save cursor_pointer" onClick={onCreateClick}>Create</div>
+                                        <div className="cancel cursor_pointer" onClick={onCancelClick}>Cancel</div>
                                 </div>
                         </div>
                 </div>

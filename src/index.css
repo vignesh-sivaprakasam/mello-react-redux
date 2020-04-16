@@ -4,6 +4,10 @@ body {
   font-family: Avenir Next,Segoe UI,Helvetica,Arial,sans-serif;
   height: 100vh;
 }
+div{
+  outline: none;
+}
+
 :root{
   --primary_color:#00aaff;
 }

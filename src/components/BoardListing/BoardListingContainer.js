@@ -22,19 +22,41 @@ function BoardListingContainer(props) {
                 props.fetchBoardList();
         },[]);
 
+        // let board = null;
         const editClick = (id) => {
                 console.log("edit click", id);
                 setID(id);
                 setDialogState(DIALOG_STATE.EDIT_BOARD);
         }
-        
-        console.log("render call");
+
+        const createClick = () =>{
+                setDialogState(DIALOG_STATE.CREATE_BOARD);
+        }
+
+        const onSaveCallback = () => {
+                console.log("save callback");
+                setDialogState(DIALOG_STATE.MY_BOARD);
+        }
+        const onCancelCallback = () => {
+                console.log("cancel callback");
+                setDialogState(DIALOG_STATE.MY_BOARD);
+        }
+
+        const onCreateCallback = () => {
+                console.log("create callback");
+        }
+
+        let board;
+        if(id !== null){
+                board = props.boards.find(b => b._id === id);
+        }
+
         return (
                 (dialogState === DIALOG_STATE.MY_BOARD) 
-                ? (<BoardListing boards = {props.boards} onEditCallback={editClick}/>) 
+                ? (<BoardListing boards={props.boards} onEdit={editClick} onCreate={createClick}/>) 
                 : (dialogState === DIALOG_STATE.CREATE_BOARD) 
-                        ? <BoardCreateDialog /> 
-                        : <BoardEditDialog id={id}/>
+                        ? <BoardCreateDialog onCreate={onCreateCallback} onCancel={onCancelCallback}/> 
+                        : <BoardEditDialog id={id} board={board} onSave={onSaveCallback} onCancel={onCancelCallback}/>
         );
 }
 

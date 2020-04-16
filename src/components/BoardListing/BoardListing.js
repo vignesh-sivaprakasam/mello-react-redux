@@ -11,7 +11,10 @@ const myBoard = {
 }
 function BoardListing(props) {
         const editClick = (id) => {
-                props.onEditCallback(id);
+                props.onEdit(id);
+        }
+        const onCreateClick = () => {
+                props.onCreate();
         }
         return (
                 <div style={styles} className="center_abs">
@@ -23,7 +26,7 @@ function BoardListing(props) {
                                 }
                                 </div>
                                 <div style={myBoard} className="flex">
-                                        <div className="text_center create_board cursor_pointer">+ Create Board</div>
+                                        <div className="text_center create_board cursor_pointer" onClick={onCreateClick}>+ Create Board</div>
                                 </div>
                         </div>
                 </div>
