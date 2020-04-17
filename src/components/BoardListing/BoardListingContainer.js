@@ -22,6 +22,9 @@ function BoardListingContainer(props) {
                 props.fetchBoardList();
         },[]);
 
+        const onBoardItemClick = (id) => {
+                props.onClick(id);
+        }
         const editClick = (id) => {
                 setID(id);
                 setDialogState(DIALOG_STATE.EDIT_BOARD);
@@ -53,7 +56,7 @@ function BoardListingContainer(props) {
 
         return (
                 (dialogState === DIALOG_STATE.MY_BOARD) 
-                ? (<BoardListing boards={props.boards} onEdit={editClick} onCreate={createClick} onDelete={deleteClick}/>) 
+                ? (<BoardListing boards={props.boards} onClick={onBoardItemClick} onEdit={editClick} onCreate={createClick} onDelete={deleteClick}/>) 
                 : (dialogState === DIALOG_STATE.CREATE_BOARD) 
                         ? <BoardCreateDialog onCreate={onCreateCallback} onCancel={onCancelCallback}/> 
                         : <BoardEditDialog id={id} board={board} onSave={onSaveCallback} onCancel={onCancelCallback}/>

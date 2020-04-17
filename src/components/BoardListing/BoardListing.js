@@ -10,6 +10,9 @@ const myBoard = {
         justifyContent : 'center'
 }
 function BoardListing(props) {
+        const onClick = (id) => {
+                props.onClick(id);
+        }
         const editClick = (id) => {
                 props.onEdit(id);
         }
@@ -25,7 +28,7 @@ function BoardListing(props) {
                                 <div className="text_center"> My Boards</div>
                                 <div className="board_list">
                                 {
-                                        props.boards.length !== 0 ? props.boards.map(board => <BoardListItem key={board._id} id={board._id} onEdit={editClick} onDelete={deleteClick} name={board.name} />) : null
+                                        props.boards.length !== 0 ? props.boards.map(board => <BoardListItem key={board._id} id={board._id} onClick={onClick} onEdit={editClick} onDelete={deleteClick} name={board.name} />) : null
                                 }
                                 </div>
                                 <div style={myBoard} className="flex">
