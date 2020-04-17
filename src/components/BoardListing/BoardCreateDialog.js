@@ -15,7 +15,7 @@ function BoardCreateDialog(props) {
 
         useEffect(()=>{
                 nameRef.current.textContent = "NewBoard";
-                setTimeout(function(){nameRef.current.focus()},1000);
+                // setTimeout(function(){nameRef.current.focus()},1000);
                 console.log(nameRef.current);
         },[]);
 

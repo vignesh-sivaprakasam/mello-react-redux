@@ -1,15 +1,17 @@
 import React from 'react';
-import BoardContainer from '../Board/BoardContainer';
+import Board from '../Board/Board';
 import '../../common.css';
 
 const middleBarStyle = {
         overflow: scroll
 }
 
-function MiddleBar() {
+function MiddleBar(props) {
         return (
                 <div style={middleBarStyle} className="flex flex1">
-                     <BoardContainer />   
+                <div className="boardContainer">        
+                        {props.id  ?  <Board id={props.id}/> : null}
+                </div>
                 </div>
         );
 }

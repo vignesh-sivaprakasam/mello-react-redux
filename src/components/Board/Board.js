@@ -1,12 +1,12 @@
 import React from 'react';
 import './Board.css';
 
-function BoardContainer() {
+function Board(props) {
         return (
-                <div className="boardContainer">
+                <div>
                         
                 </div>
         )
 }
 
-export default BoardContainer;
+export default Board;

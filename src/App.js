@@ -9,15 +9,17 @@ import BoardListingContainer from './components/BoardListing/BoardListingContain
 
 function App() {
 	const [isDialogOpen, setIsDialogOpen] = useState(true);
+	const [boardID, setBoardID]           = useState(null);
 	const onClick = (id) => {
 		console.log("id : ",id);
+		setBoardID(id);
 		setIsDialogOpen(false);	
 	}
 	return (
 		<React.Fragment>
 			<Provider store={store}>
 				<TopBar />
-				<MiddleBar />
+				<MiddleBar id={boardID} />
 				{isDialogOpen ? <BoardListingContainer onClick={onClick} /> : null}
 			</Provider>                 
 		</React.Fragment>     
