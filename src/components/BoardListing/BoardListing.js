@@ -13,6 +13,9 @@ function BoardListing(props) {
         const editClick = (id) => {
                 props.onEdit(id);
         }
+        const deleteClick = (id) => {
+                props.onDelete(id);
+        }
         const onCreateClick = () => {
                 props.onCreate();
         }
@@ -22,7 +25,7 @@ function BoardListing(props) {
                                 <div className="text_center"> My Boards</div>
                                 <div className="board_list">
                                 {
-                                        props.boards.length !== 0 ? props.boards.map(board => <BoardListItem key={board._id} id={board._id} onEditCallback={editClick} name={board.name} />) : null
+                                        props.boards.length !== 0 ? props.boards.map(board => <BoardListItem key={board._id} id={board._id} onEdit={editClick} onDelete={deleteClick} name={board.name} />) : null
                                 }
                                 </div>
                                 <div style={myBoard} className="flex">
