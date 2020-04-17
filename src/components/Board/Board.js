@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 
+import Stack from '../Stack/Stack';
+
 import './Board.css';
 
 import {fetchBoardDetails} from '../../redux/Board/BoardActions';
@@ -12,7 +14,7 @@ function Board(props) {
         return (
                 <div className="boardView flex">
                         <div className="flex">
-
+                                {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
                         </div>
                         <div>
                                 <div className="addStack"> + Add Stack</div>

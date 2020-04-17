@@ -34,3 +34,6 @@
 .text_center {
         text-align: center;
 }
+.center_margin{
+        margin: 0 auto;
+}
