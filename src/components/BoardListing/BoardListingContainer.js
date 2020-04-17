@@ -64,8 +64,9 @@ function BoardListingContainer(props) {
 }
 
 const mapStateToProps = (state) => {
+        console.log("state :  ",state);
         return {
-                boards : state
+                boards : state.boardList
         };
 }
 

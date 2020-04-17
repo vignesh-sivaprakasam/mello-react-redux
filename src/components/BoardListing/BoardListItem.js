@@ -2,11 +2,13 @@ import React from 'react';
 import './BoardListItem.css';
 
 function BoardListItem(props) {
-        const onEditClick = ()=>{
+        const onEditClick = (ev)=>{
                 props.onEdit(props.id);
+                ev.stopPropagation();
         }
-        const onDeleteClick = ()=>{
+        const onDeleteClick = (ev)=>{
                 props.onDelete(props.id);
+                ev.stopPropagation();
         }
         const onClick = ()=>{
                 props.onClick(props.id);
