@@ -14,7 +14,9 @@ function BoardCreateDialog(props) {
         const nameRef = useRef(null);
 
         useEffect(()=>{
-                nameRef.current.textContent = "";
+                nameRef.current.textContent = "NewBoard";
+                setTimeout(function(){nameRef.current.focus()},1000);
+                console.log(nameRef.current);
         },[]);
 
         const onColorChange = (newColor) => {
@@ -23,7 +25,7 @@ function BoardCreateDialog(props) {
         }
         const onCreateClick = () => {
                 console.log(" ", nameRef.current.textContent,  " color :", color);
-                props.onCreate();
+                props.onCreate(nameRef.current.textContent, color);
         }
 
         const onCancelClick = () => {

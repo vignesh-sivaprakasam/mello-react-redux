@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import BoardEditDialog from './BoardEditDialog';
 import BoardCreateDialog from './BoardCreateDialog';
 import BoardListing from './BoardListing';
-import { getBoardList, saveBoard } from '../../redux/BoardList/BoardListActions';
+import { getBoardList, saveBoard, createBoard, deleteBoard } from '../../redux/BoardList/BoardListActions';
 
 import '../../common.css';
 import './BoardListing.css';
@@ -22,29 +22,28 @@ function BoardListingContainer(props) {
                 props.fetchBoardList();
         },[]);
 
-        // let board = null;
         const editClick = (id) => {
-                console.log("edit click", id);
                 setID(id);
                 setDialogState(DIALOG_STATE.EDIT_BOARD);
         }
-
         const createClick = () =>{
                 setDialogState(DIALOG_STATE.CREATE_BOARD);
         }
+        const deleteClick = (id) => {
+                props.deleteBoard(id);
+        }
 
         const onSaveCallback = (name, color) => {
-                console.log(id, "save callback", name, " color: ", color);
                 setDialogState(DIALOG_STATE.MY_BOARD);
                 props.saveBoard(id, name, color);
         }
         const onCancelCallback = () => {
-                console.log("cancel callback");
                 setDialogState(DIALOG_STATE.MY_BOARD);
         }
 
-        const onCreateCallback = () => {
-                console.log("create callback");
+        const onCreateCallback = (name, color) => {
+                setDialogState(DIALOG_STATE.MY_BOARD);
+                props.createBoard(name, color);
         }
 
         let board;
@@ -54,7 +53,7 @@ function BoardListingContainer(props) {
 
         return (
                 (dialogState === DIALOG_STATE.MY_BOARD) 
-                ? (<BoardListing boards={props.boards} onEdit={editClick} onCreate={createClick}/>) 
+                ? (<BoardListing boards={props.boards} onEdit={editClick} onCreate={createClick} onDelete={deleteClick}/>) 
                 : (dialogState === DIALOG_STATE.CREATE_BOARD) 
                         ? <BoardCreateDialog onCreate={onCreateCallback} onCancel={onCancelCallback}/> 
                         : <BoardEditDialog id={id} board={board} onSave={onSaveCallback} onCancel={onCancelCallback}/>
@@ -70,7 +69,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
         return {
                 fetchBoardList : () => dispatch(getBoardList()),
-                saveBoard : (id, name, color) => dispatch(saveBoard(id, name, color))
+                saveBoard      : (id, name, color) => dispatch(saveBoard(id, name, color)),
+                createBoard    : (name, color) => dispatch(createBoard(name, color)),
+                deleteBoard    : (id) => dispatch(deleteBoard(id))
         }
 }
 
