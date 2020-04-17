@@ -23,6 +23,7 @@ function BoardEditDialog(props) {
         }
         const onSaveClick = () => {
                 console.log(" ", nameRef.current.textContent,  " color :", color);
+                props.onSave(nameRef.current.textContent, color);
         }
 
         const onCancelClick = () => {

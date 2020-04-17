@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import BoardEditDialog from './BoardEditDialog';
 import BoardCreateDialog from './BoardCreateDialog';
 import BoardListing from './BoardListing';
-import { getBoardList } from '../../redux/BoardList/BoardListActions';
+import { getBoardList, saveBoard } from '../../redux/BoardList/BoardListActions';
 
 import '../../common.css';
 import './BoardListing.css';
@@ -33,9 +33,10 @@ function BoardListingContainer(props) {
                 setDialogState(DIALOG_STATE.CREATE_BOARD);
         }
 
-        const onSaveCallback = () => {
-                console.log("save callback");
+        const onSaveCallback = (name, color) => {
+                console.log(id, "save callback", name, " color: ", color);
                 setDialogState(DIALOG_STATE.MY_BOARD);
+                props.saveBoard(id, name, color);
         }
         const onCancelCallback = () => {
                 console.log("cancel callback");
@@ -68,7 +69,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
         return {
-                fetchBoardList : () => dispatch(getBoardList())
+                fetchBoardList : () => dispatch(getBoardList()),
+                saveBoard : (id, name, color) => dispatch(saveBoard(id, name, color))
         }
 }
 
