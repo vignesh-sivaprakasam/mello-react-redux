@@ -6,20 +6,27 @@ import './Board.css';
 import {fetchBoardDetails} from '../../redux/Board/BoardActions';
 
 function Board(props) {
-        console.log("board conmponent : ",props.id);
         useEffect(()=>{
                 props.fetchBoardDetails(props.id);
         },[]);
         return (
-                <div>
-                        
+                <div className="boardView flex">
+                        <div className="flex">
+
+                        </div>
+                        <div>
+                                <div className="addStack"> + Add Stack</div>
+                        </div>
                 </div>
         )
 }
 
 const mapStateToProps = (state) => {
         return {
-
+                // id     : state.board.id,
+                name   : state.board.name,
+                color  : state.board.color,
+                stacks : state.board.stacks
         }
 }
 

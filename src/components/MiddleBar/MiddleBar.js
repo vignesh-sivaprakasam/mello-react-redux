@@ -10,7 +10,7 @@ function MiddleBar(props) {
         return (
                 <div style={middleBarStyle} className="flex flex1">
                 <div className="boardContainer">        
-                        {props.id  ?  <Board id={props.id}/> : null}
+                        {props.id  ?  <Board id={props.id} /> : null}
                 </div>
                 </div>
         );
