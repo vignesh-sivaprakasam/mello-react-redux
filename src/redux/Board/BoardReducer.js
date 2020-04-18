@@ -1,7 +1,6 @@
-import {
-        FETCH_BOARD_DETAILS_SUCCESS,
-        EDIT_STACK_SUCCESS
-} from './BoardTypes';
+import { FETCH_BOARD_DETAILS_SUCCESS } from './BoardTypes';
+import { EDIT_STACK_SUCCESS } from '../Stack/StackTypes';
+
 
 const stackReducer = (state, action) => {
         let stacks;

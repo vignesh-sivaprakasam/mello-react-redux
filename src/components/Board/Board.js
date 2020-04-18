@@ -5,7 +5,8 @@ import Stack from '../Stack/Stack';
 
 import './Board.css';
 
-import {fetchBoardDetails, editStack} from '../../redux/Board/BoardActions';
+import {fetchBoardDetails} from '../../redux/Board/BoardActions';
+import {editStack} from '../../redux/Stack/StackActions';
 
 export const BoardContext = React.createContext();
 
