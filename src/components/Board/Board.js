@@ -16,7 +16,7 @@ function Board(props) {
                         <div className="flex">
                                 {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
                         </div>
-                        <div>
+                        <div className="flex">
                                 <div className="addStack"> + Add Stack</div>
                         </div>
                 </div>
