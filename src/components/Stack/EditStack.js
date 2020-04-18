@@ -1,4 +1,4 @@
-import React ,{useState, useEffect, useRef} from 'react';
+import React ,{useState, useEffect, useRef } from 'react';
 import ColorPicker from '../ColorPicker/ColorPicker';
 
 
@@ -11,7 +11,8 @@ const justifyContentEnd = {
 }
 function EditStack(props) {
         const [color, setColor] = useState(props.stack.color);
-        const nameRef = useRef(null);
+        const nameRef      = useRef(null);
+        
 
         useEffect(()=>{
                 nameRef.current.textContent = props.stack.name;
@@ -22,7 +23,7 @@ function EditStack(props) {
                 setColor(newColor);
         }
         const onSaveClick = () => {
-                console.log(" ", nameRef.current.textContent,  " color :", color);
+                // console.log(" ", nameRef.current.textContent,  " color :", color);
                 props.onSave(nameRef.current.textContent, color);
         }
 

@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 
 import './Stack.css';
 import EditStack from './EditStack';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
+import {BoardContext} from '../Board/Board';
 
 function Stack(props) {
         const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,9 +21,12 @@ function Stack(props) {
                 setIsMenuOpen(false);
         }
 
+        const boardContext = useContext(BoardContext);
+        console.log("edit stack :  boardContext", boardContext)
         const onSave = (name, color) => {
-                console.log("onSave", name, color);
+                console.log(props.stack._id," onSave ", name, color);
                 setIsEditStackOpen(false);
+                boardContext.editStack(props.stack._id, name, color);
         }
         const onCancel = () => {
                 setIsEditStackOpen(false);

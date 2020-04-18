@@ -5,7 +5,9 @@ import Stack from '../Stack/Stack';
 
 import './Board.css';
 
-import {fetchBoardDetails} from '../../redux/Board/BoardActions';
+import {fetchBoardDetails, editStack} from '../../redux/Board/BoardActions';
+
+export const BoardContext = React.createContext();
 
 function Board(props) {
         useEffect(()=>{
@@ -14,7 +16,15 @@ function Board(props) {
         return (
                 <div className="boardView flex">
                         <div className="flex">
-                                {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
+                                <BoardContext.Provider value={
+                                        {
+                                                editStack: (stackID, name, color) =>{
+                                                        props.editStack(props.id, stackID, name, color);
+                                                }
+                                        }
+                                }>
+                                        {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
+                                </BoardContext.Provider>
                         </div>
                         <div className="flex">
                                 <div className="addStack"> + Add Stack</div>
@@ -34,7 +44,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
         return {
-                fetchBoardDetails : (id) => dispatch(fetchBoardDetails(id))
+                fetchBoardDetails : (id) => dispatch(fetchBoardDetails(id)),
+                editStack : (boardID, stackID, name, color) => {
+                        console.log("editStack : ",boardID, stackID, name, color);
+                        return dispatch(editStack(boardID, stackID, name, color));
+                }
         }
 }
 
