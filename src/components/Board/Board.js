@@ -8,6 +8,7 @@ import './Board.css';
 
 import {fetchBoardDetails} from '../../redux/Board/BoardActions';
 import {createStack, editStack, deleteStack} from '../../redux/Stack/StackActions';
+import {createCard, deleteCard} from '../../redux/Card/CardActions';
 
 export const BoardContext = React.createContext();
 
@@ -33,7 +34,9 @@ function Board(props) {
                                                 editStack: (stackID, name, color) =>{
                                                         props.editStack(props.id, stackID, name, color);
                                                 },
-                                                deleteStack  : (stackID) => props.deleteStack(props.id, stackID)
+                                                deleteStack : (stackID) => props.deleteStack(props.id, stackID),
+                                                createCard  : (stackID, title, description) => props.createCard(props.id, stackID, title, description),
+                                                deleteCard  : (stackID, cardID) => props.deleteCard(props.id, stackID, cardID)
                                         }
                                 }>
                                         {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
@@ -61,7 +64,9 @@ const mapDispatchToProps = (dispatch) => {
                 fetchBoardDetails : (id) => dispatch(fetchBoardDetails(id)),
                 createStack       : (boardID, name, color) => dispatch(createStack(boardID, name, color)),
                 editStack         : (boardID, stackID, name, color) =>  dispatch(editStack(boardID, stackID, name, color)),
-                deleteStack       : (boardID, stackID) => dispatch(deleteStack(boardID, stackID))
+                deleteStack       : (boardID, stackID) => dispatch(deleteStack(boardID, stackID)),
+                createCard        : (boardID, stackID, title, description) => dispatch(createCard(boardID, stackID, title, description)),
+                deleteCard        : (boardID, stackID, cardID) => dispatch(deleteCard(boardID, stackID, cardID))
         }
 }
 
