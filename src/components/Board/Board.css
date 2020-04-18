@@ -2,6 +2,7 @@
         display             : flex;
         background-color    : #d9dcdd;
         flex                : 1;
+        overflow: scroll;
 }
 .boardContainer > * {
         padding: 20px;

@@ -3,7 +3,7 @@ import {
 } from './BoardTypes';
 
 import axios from 'axios';
-import { domain } from '../../domain';
+import { domain, boardUrl } from '../../domain';
 
 const fetchBoardDetailsSuccess = (board) => {
         return {
@@ -12,7 +12,7 @@ const fetchBoardDetailsSuccess = (board) => {
         }
 }
 
-const boardUrl = "/api/boards";
+
 export const fetchBoardDetails = (id) => {
         return (dispatch) => {
                 axios.get(domain+boardUrl+ "/" + id)
@@ -25,3 +25,5 @@ export const fetchBoardDetails = (id) => {
                 });
         }
 }
+
+

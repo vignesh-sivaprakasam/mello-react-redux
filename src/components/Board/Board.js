@@ -1,24 +1,51 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 
 import Stack from '../Stack/Stack';
+import CreateStack from '../Stack/CreateStack';
 
 import './Board.css';
 
 import {fetchBoardDetails} from '../../redux/Board/BoardActions';
+import {createStack, editStack, deleteStack} from '../../redux/Stack/StackActions';
+import {createCard, deleteCard} from '../../redux/Card/CardActions';
+
+export const BoardContext = React.createContext();
 
 function Board(props) {
+        const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+        const onAddClick = () => {
+                setIsCreateDialogOpen(true);
+        }
+        const onCreate = (name, color) => {
+                console.log("onCreate : ", name, color);
+                setIsCreateDialogOpen(false);
+                props.createStack(props.id, name, color);
+        }
+        const onCancel = () => setIsCreateDialogOpen(false);
         useEffect(()=>{
                 props.fetchBoardDetails(props.id);
         },[]);
         return (
                 <div className="boardView flex">
                         <div className="flex">
-                                {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
+                                <BoardContext.Provider value={
+                                        {
+                                                editStack: (stackID, name, color) =>{
+                                                        props.editStack(props.id, stackID, name, color);
+                                                },
+                                                deleteStack : (stackID) => props.deleteStack(props.id, stackID),
+                                                createCard  : (stackID, title, description) => props.createCard(props.id, stackID, title, description),
+                                                deleteCard  : (stackID, cardID) => props.deleteCard(props.id, stackID, cardID)
+                                        }
+                                }>
+                                        {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
+                                </BoardContext.Provider>
                         </div>
-                        <div>
-                                <div className="addStack"> + Add Stack</div>
+                        <div className="flex">
+                                <div className="addStack" onClick={onAddClick}> + Add Stack</div>
                         </div>
+                        {isCreateDialogOpen && <CreateStack onCreate={onCreate} onCancel={onCancel} /> }
                 </div>
         )
 }
@@ -34,7 +61,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
         return {
-                fetchBoardDetails : (id) => dispatch(fetchBoardDetails(id))
+                fetchBoardDetails : (id) => dispatch(fetchBoardDetails(id)),
+                createStack       : (boardID, name, color) => dispatch(createStack(boardID, name, color)),
+                editStack         : (boardID, stackID, name, color) =>  dispatch(editStack(boardID, stackID, name, color)),
+                deleteStack       : (boardID, stackID) => dispatch(deleteStack(boardID, stackID)),
+                createCard        : (boardID, stackID, title, description) => dispatch(createCard(boardID, stackID, title, description)),
+                deleteCard        : (boardID, stackID, cardID) => dispatch(deleteCard(boardID, stackID, cardID))
         }
 }
 

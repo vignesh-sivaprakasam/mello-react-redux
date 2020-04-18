@@ -1,31 +1,30 @@
-import React, {useState, useRef, useEffect} from 'react';
-import ColorPicker, {getDefaultColor} from '../ColorPicker/ColorPicker';
+import React ,{useState, useEffect, useRef } from 'react';
+import ColorPicker from '../ColorPicker/ColorPicker';
+
 
 const styles = {
-        width  : '400px',
+        width : '400px',
         height : '450px'
 }
 const justifyContentEnd = {
         justifyContent: 'flex-end'
 }
-function BoardCreateDialog(props) {
-
-        const [color, setColor] = useState(getDefaultColor());
-        const nameRef = useRef(null);
+function EditStack(props) {
+        const [color, setColor] = useState(props.stack.color);
+        const nameRef      = useRef(null);
+        
 
         useEffect(()=>{
-                nameRef.current.textContent = "NewBoard";
-                // setTimeout(function(){nameRef.current.focus()},1000);
-                console.log(nameRef.current);
+                nameRef.current.textContent = props.stack.name;
         },[]);
 
         const onColorChange = (newColor) => {
                 console.log("color Changed:: ", newColor);
                 setColor(newColor);
         }
-        const onCreateClick = () => {
-                console.log(" ", nameRef.current.textContent,  " color :", color);
-                props.onCreate(nameRef.current.textContent, color);
+        const onSaveClick = () => {
+                // console.log(" ", nameRef.current.textContent,  " color :", color);
+                props.onSave(nameRef.current.textContent, color);
         }
 
         const onCancelClick = () => {
@@ -33,10 +32,11 @@ function BoardCreateDialog(props) {
         }
 
 
+        console.log("Render",props);
         return (
                 <div style={styles} className="center_abs">
                         <div className="board_edit_container flex flex_column">
-                                <div className="edit_header text_center"> Create Board</div>
+                                <div className="edit_header text_center"> Edit Stack</div>
                                 <div className="flex1">
                                         <div className="labelContainer">
                                                 <div className="board_name_title">Name</div>
@@ -50,7 +50,7 @@ function BoardCreateDialog(props) {
                                         </div>
                                 </div>
                                 <div style={justifyContentEnd} className="edit_footer flex">
-                                        <div className="save cursor_pointer" onClick={onCreateClick}>Create</div>
+                                        <div className="save cursor_pointer" onClick={onSaveClick}>Save</div>
                                         <div className="cancel cursor_pointer" onClick={onCancelClick}>Cancel</div>
                                 </div>
                         </div>
@@ -58,4 +58,4 @@ function BoardCreateDialog(props) {
         )
 }
 
-export default BoardCreateDialog;
+export default EditStack;

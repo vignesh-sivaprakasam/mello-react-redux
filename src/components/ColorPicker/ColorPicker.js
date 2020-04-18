@@ -14,8 +14,8 @@ function ColorPicker(props) {
                 </div>
         )
 }
-ColorPicker.getDefaultColor = () => {
+export const getDefaultColor = () => {
         return colors[0];
 }
 
-export default ColorPicker
+export default ColorPicker;

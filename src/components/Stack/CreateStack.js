@@ -1,22 +1,21 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React ,{useState, useEffect, useRef } from 'react';
 import ColorPicker, {getDefaultColor} from '../ColorPicker/ColorPicker';
 
+
 const styles = {
-        width  : '400px',
+        width : '400px',
         height : '450px'
 }
 const justifyContentEnd = {
         justifyContent: 'flex-end'
 }
-function BoardCreateDialog(props) {
-
+function CreateStack(props) {
         const [color, setColor] = useState(getDefaultColor());
-        const nameRef = useRef(null);
+        const nameRef           = useRef(null);
+        
 
         useEffect(()=>{
-                nameRef.current.textContent = "NewBoard";
-                // setTimeout(function(){nameRef.current.focus()},1000);
-                console.log(nameRef.current);
+                nameRef.current.textContent = "MyStack";
         },[]);
 
         const onColorChange = (newColor) => {
@@ -24,7 +23,7 @@ function BoardCreateDialog(props) {
                 setColor(newColor);
         }
         const onCreateClick = () => {
-                console.log(" ", nameRef.current.textContent,  " color :", color);
+                // console.log(" ", nameRef.current.textContent,  " color :", color);
                 props.onCreate(nameRef.current.textContent, color);
         }
 
@@ -33,10 +32,11 @@ function BoardCreateDialog(props) {
         }
 
 
+        console.log("Render",props);
         return (
                 <div style={styles} className="center_abs">
                         <div className="board_edit_container flex flex_column">
-                                <div className="edit_header text_center"> Create Board</div>
+                                <div className="edit_header text_center"> Create Stack</div>
                                 <div className="flex1">
                                         <div className="labelContainer">
                                                 <div className="board_name_title">Name</div>
@@ -58,4 +58,4 @@ function BoardCreateDialog(props) {
         )
 }
 
-export default BoardCreateDialog;
+export default CreateStack;
