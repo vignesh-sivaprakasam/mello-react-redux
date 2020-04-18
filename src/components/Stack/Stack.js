@@ -9,8 +9,8 @@ import {BoardContext} from '../Board/Board';
 function Stack(props) {
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [isEditStackOpen, setIsEditStackOpen] = useState(false);
-        const openMenu = () => {
-                setIsMenuOpen(true);
+        const toggleMenu = () => {
+                setIsMenuOpen(!isMenuOpen);
         }
         const onEditMenu = (ev) => {
                 setIsEditStackOpen(true);
@@ -42,7 +42,7 @@ function Stack(props) {
                 <div className="stack flex flex_column">
                         <div style={{backgroundColor: props.stack.color}} className="stack_header flex">
                                 <div id="stackName" ref={stackHeaderRef} contentEditable="true" className="stack_name"></div>
-                                <div className="stack_menu cursor_pointer" onClick={openMenu}>
+                                <div className="stack_menu cursor_pointer" onClick={toggleMenu}>
                                         <img src={require("../TopBar/3dotsHori.png")} height="32" width="32" alt="" />
                                         {isMenuOpen && <Menu>
                                                 <MenuItem onClick={onEditMenu}>EditStack</MenuItem>

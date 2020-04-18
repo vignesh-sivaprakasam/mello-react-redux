@@ -1,10 +1,12 @@
 import { FETCH_BOARD_DETAILS_SUCCESS } from './BoardTypes';
-import { EDIT_STACK_SUCCESS, DELETE_STACK_SUCCESS } from '../Stack/StackTypes';
+import { CREATE_STACK_SUCCESS, EDIT_STACK_SUCCESS, DELETE_STACK_SUCCESS } from '../Stack/StackTypes';
 
 
 const stackReducer = (state, action) => {
         let stacks;
         switch (action.type) {
+                case CREATE_STACK_SUCCESS : 
+                        return [...state, action.payload.stack];
                 case EDIT_STACK_SUCCESS:
                         stacks = state.map((stack) =>{
                                 return stack._id === action.payload.stackID ? action.payload.stack : stack;
@@ -23,6 +25,11 @@ export const boardReducer = (state = {}, action) => {
                 case FETCH_BOARD_DETAILS_SUCCESS:
                         state = action.payload;
                         return state;
+                case CREATE_STACK_SUCCESS : 
+                        return {
+                                ...state,
+                                stacks : stackReducer(state.stacks, action)
+                        }
                 case EDIT_STACK_SUCCESS :
                         return {
                                 ...state,
