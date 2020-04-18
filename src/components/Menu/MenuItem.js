@@ -3,11 +3,11 @@ import './Menu.css';
 
 function MenuItem(props) {
         const onClick = (e) => {
-                props.onClick();
+                props.onClick(e);
         }
         return (
-                <div className="menu_item">
-                        <div onClick={onClick}>{props.title}</div>
+                <div className="menu_item" onClick={onClick} >
+                        <div>{props.children}</div>
                 </div>
         )
 }

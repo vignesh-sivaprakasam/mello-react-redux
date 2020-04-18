@@ -1,38 +1,48 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import './Stack.css';
+import EditStack from './EditStack';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
 
 function Stack(props) {
         const [isMenuOpen, setIsMenuOpen] = useState(false);
-        const toggleMenu = () => {
+        const [isEditStackOpen, setIsEditStackOpen] = useState(false);
+        const openMenu = () => {
                 setIsMenuOpen(true);
-                document.body.addEventListener("click", bodyClick);
         }
-        const bodyClick = (ev) => {
+        const onEditMenu = (ev) => {
+                setIsEditStackOpen(true);
                 setIsMenuOpen(false);
-                document.body.removeEventListener("click", bodyClick);
                 ev.stopPropagation();
         }
+        const onDeleteMenu = () => {
+                setIsMenuOpen(false);
+        }
 
-        console.log("stack render")
+        const onSave = (name, color) => {
+                console.log("onSave", name, color);
+                setIsEditStackOpen(false);
+        }
+        const onCancel = () => {
+                setIsEditStackOpen(false);
+        }
+
+
         const stackHeaderRef = useRef(null);
         useEffect(() => {
                 stackHeaderRef.current.textContent = props.stack.name;
         }, []);
-        const styles = {
-                backgroundColor: props.stack.color
-        }
+
         return (
                 <div className="stack flex flex_column">
-                        <div style={styles} className="stack_header flex">
+                        <div style={{backgroundColor: props.stack.color}} className="stack_header flex">
                                 <div id="stackName" ref={stackHeaderRef} contentEditable="true" className="stack_name"></div>
-                                <div className="stack_menu cursor_pointer" onClick={toggleMenu}>
+                                <div className="stack_menu cursor_pointer" onClick={openMenu}>
                                         <img src={require("../TopBar/3dotsHori.png")} height="32" width="32" alt="" />
                                         {isMenuOpen && <Menu>
-                                                <MenuItem title="EditStack"></MenuItem>
-                                                <MenuItem title="DeleteStack"></MenuItem>
+                                                <MenuItem onClick={onEditMenu}>EditStack</MenuItem>
+                                                <MenuItem onClick={onDeleteMenu}>DeleteStack</MenuItem>
                                         </Menu>}
                                 </div>
                         </div>
@@ -44,6 +54,7 @@ function Stack(props) {
                                         <div className="center_abs">+</div>
                                 </div>
                         </div>
+                        {isEditStackOpen && <EditStack stack={props.stack} onSave={onSave} onCancel={onCancel}/>}
                 </div>
         );
 }
