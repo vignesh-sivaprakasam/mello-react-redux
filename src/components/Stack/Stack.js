@@ -17,12 +17,12 @@ function Stack(props) {
                 setIsMenuOpen(false);
                 ev.stopPropagation();
         }
+        const boardContext = useContext(BoardContext);
         const onDeleteMenu = () => {
                 setIsMenuOpen(false);
+                boardContext.deleteStack(props.stack._id);
         }
 
-        const boardContext = useContext(BoardContext);
-        console.log("edit stack :  boardContext", boardContext)
         const onSave = (name, color) => {
                 console.log(props.stack._id," onSave ", name, color);
                 setIsEditStackOpen(false);

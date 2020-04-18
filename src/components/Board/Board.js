@@ -6,7 +6,7 @@ import Stack from '../Stack/Stack';
 import './Board.css';
 
 import {fetchBoardDetails} from '../../redux/Board/BoardActions';
-import {editStack} from '../../redux/Stack/StackActions';
+import {editStack, deleteStack} from '../../redux/Stack/StackActions';
 
 export const BoardContext = React.createContext();
 
@@ -21,7 +21,8 @@ function Board(props) {
                                         {
                                                 editStack: (stackID, name, color) =>{
                                                         props.editStack(props.id, stackID, name, color);
-                                                }
+                                                },
+                                                deleteStack  : (stackID) => props.deleteStack(props.id, stackID)
                                         }
                                 }>
                                         {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
@@ -47,9 +48,9 @@ const mapDispatchToProps = (dispatch) => {
         return {
                 fetchBoardDetails : (id) => dispatch(fetchBoardDetails(id)),
                 editStack : (boardID, stackID, name, color) => {
-                        console.log("editStack : ",boardID, stackID, name, color);
                         return dispatch(editStack(boardID, stackID, name, color));
-                }
+                },
+                deleteStack : (boardID, stackID) => dispatch(deleteStack(boardID, stackID))
         }
 }
 

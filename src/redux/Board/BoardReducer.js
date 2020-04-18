@@ -1,5 +1,5 @@
 import { FETCH_BOARD_DETAILS_SUCCESS } from './BoardTypes';
-import { EDIT_STACK_SUCCESS } from '../Stack/StackTypes';
+import { EDIT_STACK_SUCCESS, DELETE_STACK_SUCCESS } from '../Stack/StackTypes';
 
 
 const stackReducer = (state, action) => {
@@ -9,6 +9,9 @@ const stackReducer = (state, action) => {
                         stacks = state.map((stack) =>{
                                 return stack._id === action.payload.stackID ? action.payload.stack : stack;
                         });
+                        return stacks;
+                case DELETE_STACK_SUCCESS:
+                        stacks = state.filter((stack) => stack._id !== action.payload.stackID);
                         return stacks;
                 default:
                         return state;
@@ -24,8 +27,13 @@ export const boardReducer = (state = {}, action) => {
                         return {
                                 ...state,
                                 stacks : stackReducer(state.stacks, action)
-                        }        
+                        }
+                case DELETE_STACK_SUCCESS :
+                        return {
+                                ...state,
+                                stacks : stackReducer(state.stacks, action)
+                        }
                 default:
-                        return state;                        
+                        return state;
         }
 }
