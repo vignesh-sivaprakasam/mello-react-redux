@@ -41,11 +41,12 @@ function Stack(props) {
         const onCardAdd = () => {
                 setIsCreateCardOpen(true);
         }
+        
         const onCardCreate = (title, description) => {
-                console.log("title L",title, " description : ", description);
                 setIsCreateCardOpen(false);
                 boardContext.createCard(props.stack._id, title, description);
         }
+
         const onCardCancel = () => {
                 setIsCreateCardOpen(false);
         }
