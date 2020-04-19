@@ -27,7 +27,7 @@ function Card(props) {
                 console.log("onDragStart :: stack :", props.stackID, " :::  card :", props.card._id);
                 let cardID = props.card._id;
                 let position = props.order.indexOf(cardID);
-                setDrag({stackID: props.stackID, cardID: cardID, dragCardDom : cardRef.current, position: position});
+                setDrag({stackID: props.stackID, cardID: cardID, cardDom : cardRef.current, position: position});
                 setDrop({stackID: props.stackID, cardID: cardID, position: position});
                 // ev.dataTransfer.setData("drag", {cardID : props.card._id});
 
@@ -35,25 +35,26 @@ function Card(props) {
 
         const onDragEnter = (ev) => {
                 const prevDrop = getDrop();
+                ev.stopPropagation();
                 if(prevDrop.stackID === props.stackID && prevDrop.cardID === props.card._id){
                         return;
                 } else {
                         const drag      = getDrag();
                         const dropCardID  = props.card._id;
                         const dropStackID = props.stackID;
-                        const dragCardDom = drag.dragCardDom;
+                        const dragCardDom = drag.cardDom;
                         let newDropPosition = prevDrop.position;
                         if(drag.cardID !== dropCardID){
                                 const cardHolder = cardRef.current.parentElement;
                                 const dragOverDom = cardRef.current;
                                 if(dragOverDom.nextElementSibling === dragCardDom){
-                                        console.log("up :: ", getDirection());
+                                        // console.log("up :: ", getDirection());
                                         if(getDirection() == null || getDirection() === true){
                                                 setDirection(true);
                                                 newDropPosition = prevDrop.position - 1;
                                         } else if(getDirection() === false){
                                                 if(drag.stackID === prevDrop.stackID){
-                                                        console.log("decrement");
+                                                        // console.log("decrement");
                                                         newDropPosition = (prevDrop.position - 1);
                                                 } else {
                                                         newDropPosition = prevDrop.position;
@@ -61,7 +62,7 @@ function Card(props) {
                                         }
                                         cardHolder.insertBefore(dragCardDom, dragOverDom);
                                 } else if(dragCardDom.nextElementSibling === dragOverDom) {
-                                        console.log("down :");
+                                        // console.log("down :");
                                         if(getDirection() == null || getDirection() === false) {
                                                 setDirection(false);
                                                 newDropPosition = prevDrop.position + 1;
@@ -75,16 +76,17 @@ function Card(props) {
                                         newDropPosition = prevDrop.position + 1;
                                         cardHolder.insertBefore(dragOverDom, dragCardDom);
                                 } else {
-
+                                        if(dragCardDom !== dragOverDom){
+                                                // console.log("stack change");
+                                                cardHolder.insertBefore(dragCardDom, dragOverDom);
+                                        }
                                 }
 
                                 if(drag.position === newDropPosition && drag.stackID === dropStackID) {
-                                        console.log("same pos");
+                                        // console.log("same pos");
                                         // dragAndDropState.setDirection(null);
                                         setDirection(null);
                                 }
-                        } else {
-                                // console.log("drop is same as drag");
                         }
                         setDrop({stackID: props.stackID, cardID: dropCardID, position: newDropPosition});
                 }
@@ -98,7 +100,7 @@ function Card(props) {
         const onDrop = (ev) => {
                 const drag = getDrag();
                 const drop = getDrop();
-                console.log("drop", drop.position);
+                console.log("drop on card", drop.position);
         }
 
 

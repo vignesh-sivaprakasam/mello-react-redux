@@ -7,6 +7,7 @@ import MenuItem from '../Menu/MenuItem';
 import Card from '../Card/Card';
 import CreateCard from '../Card/CreateCard';
 import {BoardContext} from '../Board/Board';
+import {getDrag, getDrop, setDrop} from '../DragAndDropUtility';
 
 
 function Stack(props) {
@@ -51,6 +52,18 @@ function Stack(props) {
                 setIsCreateCardOpen(false);
         }
 
+        const cardHolderRef = useRef(null);
+        const onDragEnter = () => {
+                console.log("stack drag enter");
+                const  drag = getDrag();
+                setDrop({stackID: props.stack._id, cardID: null, position : cardHolderRef.current.children.length})
+                cardHolderRef.current.appendChild(drag.cardDom);
+        }
+        const onDragOver = (ev) => ev.preventDefault();
+        const onDrop = () => {
+                console.log("stack drop: :");
+        }
+
         const stackHeaderRef = useRef(null);
         useEffect(() => {
                 stackHeaderRef.current.textContent = props.stack.name;
@@ -67,8 +80,11 @@ function Stack(props) {
                                         </Menu>}
                                 </div>
                         </div>
-                        <div className="card_holder">
-                                {props.stack.card_order.map((cardID) => <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} order={props.stack.card_order}/>)}
+                        <div  className="flex1 flex flex_column" >
+                                <div ref={cardHolderRef} className="card_holder">
+                                        {props.stack.card_order.map((cardID) => <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} order={props.stack.card_order}/>)}
+                                </div>
+                                <div className="flex1" onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter}></div>
                         </div>
                         <div className="stack_footer">
                                 <div className="createCard circle center_margin cursor_pointer" onClick={onCardAdd}>

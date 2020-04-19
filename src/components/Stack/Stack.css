@@ -19,7 +19,7 @@
         position: relative;
 }
 .card_holder {
-        flex: 1;
+        /* flex: 1; */
         overflow: scroll;
 }
 .card_holder > * {
