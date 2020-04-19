@@ -1,4 +1,4 @@
-import { CREATE_CARD_SUCCESS , DELETE_CARD_SUCCESS } from './CardTypes';
+import { CREATE_CARD_SUCCESS , DELETE_CARD_SUCCESS, MOVE_CARD_SUCCESS } from './CardTypes';
 import axios from 'axios';
 import { domain, boardUrl, stackUrl, cardUrl } from '../../domain';
 
@@ -46,6 +46,29 @@ export const deleteCard = (boardID, stackID, cardID) => {
                 axios.delete(domain+boardUrl+ "/" + boardID + stackUrl + "/" + stackID + cardUrl + "/"+cardID)
                 .then(res => {
                         dispatch(deleteCardSuccess(boardID, stackID, cardID));
+                })
+                .catch(err => {
+
+                });
+        }
+}
+
+const moveCardSuccess = (boardID, stackID, cardID, data) => {
+        return {
+                type    : MOVE_CARD_SUCCESS,
+                payload : data
+        }
+}
+
+export const moveCard = (boardID, stackID, cardID, toStackID, position) => {
+        const query = "?stackID="+toStackID+"&pos="+position;
+        console.log(domain + boardUrl + "/" + boardID + stackUrl + "/" + stackID + cardUrl + "/" + cardID);
+        console.log(query,"position : ", position);
+        return dispatch => {
+
+                axios.put(domain + boardUrl + "/" + boardID + stackUrl + "/" + stackID + cardUrl + "/" + cardID+"/move"+query)
+                .then(res => {
+                        console.log("move success", res.data);
                 })
                 .catch(err => {
 

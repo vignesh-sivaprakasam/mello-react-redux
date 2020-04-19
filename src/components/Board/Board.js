@@ -8,7 +8,7 @@ import './Board.css';
 
 import {fetchBoardDetails} from '../../redux/Board/BoardActions';
 import {createStack, editStack, deleteStack} from '../../redux/Stack/StackActions';
-import {createCard, deleteCard} from '../../redux/Card/CardActions';
+import {createCard, deleteCard, moveCard} from '../../redux/Card/CardActions';
 
 export const BoardContext = React.createContext();
 
@@ -18,7 +18,6 @@ function Board(props) {
                 setIsCreateDialogOpen(true);
         }
         const onCreate = (name, color) => {
-                console.log("onCreate : ", name, color);
                 setIsCreateDialogOpen(false);
                 props.createStack(props.id, name, color);
         }
@@ -36,7 +35,8 @@ function Board(props) {
                                                 },
                                                 deleteStack : (stackID) => props.deleteStack(props.id, stackID),
                                                 createCard  : (stackID, title, description) => props.createCard(props.id, stackID, title, description),
-                                                deleteCard  : (stackID, cardID) => props.deleteCard(props.id, stackID, cardID)
+                                                deleteCard  : (stackID, cardID) => props.deleteCard(props.id, stackID, cardID),
+                                                moveCard    : (stackID, cardID, toStackID, position) => props.moveCard(props.id, stackID, cardID, toStackID, position)
                                         }
                                 }>
                                         {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
@@ -66,7 +66,8 @@ const mapDispatchToProps = (dispatch) => {
                 editStack         : (boardID, stackID, name, color) =>  dispatch(editStack(boardID, stackID, name, color)),
                 deleteStack       : (boardID, stackID) => dispatch(deleteStack(boardID, stackID)),
                 createCard        : (boardID, stackID, title, description) => dispatch(createCard(boardID, stackID, title, description)),
-                deleteCard        : (boardID, stackID, cardID) => dispatch(deleteCard(boardID, stackID, cardID))
+                deleteCard        : (boardID, stackID, cardID) => dispatch(deleteCard(boardID, stackID, cardID)),
+                moveCard : (boardID, stackID, cardID, toStackID, position) => dispatch(moveCard(boardID, stackID, cardID, toStackID, position))
         }
 }
 

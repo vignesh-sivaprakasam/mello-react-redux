@@ -7,6 +7,7 @@ import MenuItem from '../Menu/MenuItem';
 import Card from '../Card/Card';
 import CreateCard from '../Card/CreateCard';
 import {BoardContext} from '../Board/Board';
+import {getDrag, getDrop, setDrop} from '../DragAndDropUtility';
 
 
 function Stack(props) {
@@ -41,13 +42,32 @@ function Stack(props) {
         const onCardAdd = () => {
                 setIsCreateCardOpen(true);
         }
+        
         const onCardCreate = (title, description) => {
-                console.log("title L",title, " description : ", description);
                 setIsCreateCardOpen(false);
                 boardContext.createCard(props.stack._id, title, description);
         }
+
         const onCardCancel = () => {
                 setIsCreateCardOpen(false);
+        }
+
+        const cardHolderRef = useRef(null);
+        const onDragEnter = () => {
+                console.log("stack drag enter", props.stack.name);
+                const  drag = getDrag();
+                setDrop({stackID: props.stack._id, cardID: null, position : cardHolderRef.current.children.length})
+                cardHolderRef.current.appendChild(drag.cardDom);
+        }
+        const onDragOver = (ev) => ev.preventDefault();
+        const onDrop = () => {
+                console.log("stack drop: :");
+                const drag = getDrag();
+                const drop = getDrop();
+                // if(drag.stackID == drop.stackID){
+                //         console.log("same stack drop");
+                // }
+                // boardContext.moveCard(drag.stackID, drag.cardID, drop.stackID, drop.position);
         }
 
         const stackHeaderRef = useRef(null);
@@ -66,8 +86,11 @@ function Stack(props) {
                                         </Menu>}
                                 </div>
                         </div>
-                        <div className="card_holder">
-                                {props.stack.card_order.map((cardID) => <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} />)}
+                        <div  className="flex1 flex flex_column" >
+                                <div ref={cardHolderRef} className="card_holder">
+                                        {props.stack.card_order.map((cardID) => <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} order={props.stack.card_order}/>)}
+                                </div>
+                                <div className="flex1" onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter}></div>
                         </div>
                         <div className="stack_footer">
                                 <div className="createCard circle center_margin cursor_pointer" onClick={onCardAdd}>
