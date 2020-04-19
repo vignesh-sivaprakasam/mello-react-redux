@@ -68,7 +68,7 @@ function Stack(props) {
                                 </div>
                         </div>
                         <div className="card_holder">
-                                {props.stack.card_order.map((cardID) => <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} />)}
+                                {props.stack.card_order.map((cardID) => <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} order={props.stack.card_order}/>)}
                         </div>
                         <div className="stack_footer">
                                 <div className="createCard circle center_margin cursor_pointer" onClick={onCardAdd}>

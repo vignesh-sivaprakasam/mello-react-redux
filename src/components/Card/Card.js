@@ -4,7 +4,7 @@ import MenuItem from '../Menu/MenuItem';
 
 import './Card.css';
 
-import {getDrag, setDrag, getDrop, setDrop} from '../DragAndDropUtility';
+import {getDrag, setDrag, getDrop, setDrop, getDirection, setDirection} from '../DragAndDropUtility';
 
 import {BoardContext} from '../Board/Board';
 
@@ -25,8 +25,10 @@ function Card(props) {
 
         const onDragStart = (ev) => {
                 console.log("onDragStart :: stack :", props.stackID, " :::  card :", props.card._id);
-                setDrag({stackID: props.stackID, cardID: props.card._id, dragCardDom : cardRef.current});
-                setDrop({stackID: props.stackID, cardID: props.card._id});
+                let cardID = props.card._id;
+                let position = props.order.indexOf(cardID);
+                setDrag({stackID: props.stackID, cardID: cardID, dragCardDom : cardRef.current, position: position});
+                setDrop({stackID: props.stackID, cardID: cardID, position: position});
                 // ev.dataTransfer.setData("drag", {cardID : props.card._id});
 
         }
@@ -37,24 +39,54 @@ function Card(props) {
                         return;
                 } else {
                         const drag      = getDrag();
-                        let dropCardID  = props.card._id;
+                        const dropCardID  = props.card._id;
+                        const dropStackID = props.stackID;
                         const dragCardDom = drag.dragCardDom;
+                        let newDropPosition = prevDrop.position;
                         if(drag.cardID !== dropCardID){
                                 const cardHolder = cardRef.current.parentElement;
                                 const dragOverDom = cardRef.current;
                                 if(dragOverDom.nextElementSibling === dragCardDom){
-                                        console.log("up :: ")
+                                        console.log("up :: ", getDirection());
+                                        if(getDirection() == null || getDirection() === true){
+                                                setDirection(true);
+                                                newDropPosition = prevDrop.position - 1;
+                                        } else if(getDirection() === false){
+                                                if(drag.stackID === prevDrop.stackID){
+                                                        console.log("decrement");
+                                                        newDropPosition = (prevDrop.position - 1);
+                                                } else {
+                                                        newDropPosition = prevDrop.position;
+                                                }
+                                        }
                                         cardHolder.insertBefore(dragCardDom, dragOverDom);
                                 } else if(dragCardDom.nextElementSibling === dragOverDom) {
                                         console.log("down :");
+                                        if(getDirection() == null || getDirection() === false) {
+                                                setDirection(false);
+                                                newDropPosition = prevDrop.position + 1;
+                                        } else if (getDirection() === true) {
+                                                if(drag.stackID === prevDrop.stackID){
+                                                        newDropPosition = prevDrop.position + 1;
+                                                } else {
+                                                        newDropPosition = prevDrop.position;
+                                                }
+                                        }
+                                        newDropPosition = prevDrop.position + 1;
                                         cardHolder.insertBefore(dragOverDom, dragCardDom);
                                 } else {
-                                        
+
+                                }
+
+                                if(drag.position === newDropPosition && drag.stackID === dropStackID) {
+                                        console.log("same pos");
+                                        // dragAndDropState.setDirection(null);
+                                        setDirection(null);
                                 }
                         } else {
-                                console.log("drop is same as drag");
+                                // console.log("drop is same as drag");
                         }
-                        setDrop({stackID: props.stackID, cardID: dropCardID});
+                        setDrop({stackID: props.stackID, cardID: dropCardID, position: newDropPosition});
                 }
                 ev.preventDefault();
         }
@@ -64,13 +96,12 @@ function Card(props) {
         }
 
         const onDrop = (ev) => {
-                console.log("ev.da",ev.dataTransfer.getData('drag'));
-                console.log("drop");
                 const drag = getDrag();
                 const drop = getDrop();
+                console.log("drop", drop.position);
         }
 
-        console.log(props);
+
         return (
                 <div ref={cardRef} className="card flex flex_column" draggable="true" onDragStart={onDragStart}  onDragEnter={onDragEnter} onDragOver={onDragOver} onDrop={onDrop} >
                         <div className="card_header flex">
