@@ -54,7 +54,7 @@ function Stack(props) {
 
         const cardHolderRef = useRef(null);
         const onDragEnter = () => {
-                console.log("stack drag enter");
+                console.log("stack drag enter", props.stack.name);
                 const  drag = getDrag();
                 setDrop({stackID: props.stack._id, cardID: null, position : cardHolderRef.current.children.length})
                 cardHolderRef.current.appendChild(drag.cardDom);
@@ -62,6 +62,12 @@ function Stack(props) {
         const onDragOver = (ev) => ev.preventDefault();
         const onDrop = () => {
                 console.log("stack drop: :");
+                const drag = getDrag();
+                const drop = getDrop();
+                // if(drag.stackID == drop.stackID){
+                //         console.log("same stack drop");
+                // }
+                // boardContext.moveCard(drag.stackID, drag.cardID, drop.stackID, drop.position);
         }
 
         const stackHeaderRef = useRef(null);
