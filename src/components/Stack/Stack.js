@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 
 import './Stack.css';
 import EditStack from './EditStack';
@@ -62,22 +62,19 @@ function Stack(props) {
         const onDragOver = (ev) => ev.preventDefault();
         const onDrop = () => {
                 console.log("stack drop: :");
-                const drag = getDrag();
-                const drop = getDrop();
+                // const drag = getDrag();
+                // const drop = getDrop();
                 // if(drag.stackID == drop.stackID){
                 //         console.log("same stack drop");
                 // }
                 // boardContext.moveCard(drag.stackID, drag.cardID, drop.stackID, drop.position);
         }
 
-        const stackHeaderRef = useRef(null);
-        useEffect(() => {
-                stackHeaderRef.current.textContent = props.stack.name;
-        }, []);
+        
         return (
                 <div className="stack flex flex_column">
                         <div style={{backgroundColor: props.stack.color}} className="stack_header flex">
-                                <div id="stackName" ref={stackHeaderRef} contentEditable="true" className="stack_name"></div>
+                                <div id="stackName" className="stack_name">{props.stack.name}</div>
                                 <div className="stack_menu cursor_pointer" onClick={toggleMenu}>
                                         <img src={require("../TopBar/3dotsHori.png")} height="32" width="32" alt="" />
                                         {isMenuOpen && <Menu>
