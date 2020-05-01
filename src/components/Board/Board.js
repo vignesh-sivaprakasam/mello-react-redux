@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Stack from '../Stack/Stack';
 import CreateStack from '../Stack/CreateStack';
+import {getDrag, getDrop, setDrag} from '../DragAndDropUtility';
 
 import './Board.css';
 
@@ -10,10 +11,12 @@ import {fetchBoardDetails} from '../../redux/Board/BoardActions';
 import {createStack, editStack, deleteStack} from '../../redux/Stack/StackActions';
 import {createCard, deleteCard, moveCard} from '../../redux/Card/CardActions';
 
+
 export const BoardContext = React.createContext();
 
 function Board(props) {
         const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+
         const onAddClick = () => {
                 setIsCreateDialogOpen(true);
         }
@@ -24,7 +27,47 @@ function Board(props) {
         const onCancel = () => setIsCreateDialogOpen(false);
         useEffect(()=>{
                 props.fetchBoardDetails(props.id);
+                setCanUpdate(true);
         },[]);
+
+        const [canUpdate, setCanUpdate] = useState(false);
+        let sCardOrders = Object.create(null);
+        const [stackCardOrders, setStackCardOrders] = useState(sCardOrders);
+        if(canUpdate && props.stacks){
+                props.stacks.forEach((stack) => {
+                        sCardOrders[stack._id] = {order : stack.card_order};
+                });
+                setStackCardOrders(sCardOrders);
+                setCanUpdate(false);
+        }
+        // console.log(sCardOrders, " stack card or ::", stackCardOrders);
+        const onCardMove = () => {
+
+                const drag = getDrag();
+                const drop = getDrop();
+
+                const dragOrder = stackCardOrders[drag.curStackID].order;
+                const dropOrder = stackCardOrders[drop.stackID].order;
+                
+                const newDragCardOrder = dragOrder.filter(cardID => !(cardID === drag.cardID));
+                let newDropCardOrder;
+                if(drag.curStackID === drop.stackID){
+                        newDragCardOrder.splice(drop.position, 0, drag.cardID);
+                        newDropCardOrder = newDragCardOrder;
+                } else {
+                        dropOrder.splice(drop.position, 0, drag.cardID);
+                        newDropCardOrder = dropOrder;
+                }
+
+                setDrag({...drag, curStackID : drop.stackID});
+
+                const newStackCardOrder = {...stackCardOrders};
+                newStackCardOrder[drag.curStackID].order = newDragCardOrder;
+                newStackCardOrder[drop.stackID].order = newDropCardOrder;
+                
+                setStackCardOrders(newStackCardOrder);
+        }
+
         return (
                 <div className="boardView flex">
                         <div className="flex">
@@ -36,10 +79,11 @@ function Board(props) {
                                                 deleteStack : (stackID) => props.deleteStack(props.id, stackID),
                                                 createCard  : (stackID, title, description) => props.createCard(props.id, stackID, title, description),
                                                 deleteCard  : (stackID, cardID) => props.deleteCard(props.id, stackID, cardID),
-                                                moveCard    : (stackID, cardID, toStackID, position) => props.moveCard(props.id, stackID, cardID, toStackID, position)
+                                                moveCard    : (stackID, cardID, toStackID, position) => props.moveCard(props.id, stackID, cardID, toStackID, position),
+                                                onCardMove  : () => onCardMove()
                                         }
                                 }>
-                                        {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} />)}
+                                        {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} cardOrder={stackCardOrders[stack._id] && stackCardOrders[stack._id].order} />)}
                                 </BoardContext.Provider>
                         </div>
                         <div className="flex">

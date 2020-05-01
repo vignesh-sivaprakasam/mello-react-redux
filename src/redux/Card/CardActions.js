@@ -2,6 +2,8 @@ import { CREATE_CARD_SUCCESS , DELETE_CARD_SUCCESS, MOVE_CARD_SUCCESS } from './
 import axios from 'axios';
 import { domain, boardUrl, stackUrl, cardUrl } from '../../domain';
 
+import {fetchBoardDetails} from '../Board/BoardActions';
+
 const createCardSuccess = (boardID, stackID, cardID, card) => {
         return {
                 type: CREATE_CARD_SUCCESS,
@@ -69,6 +71,7 @@ export const moveCard = (boardID, stackID, cardID, toStackID, position) => {
                 axios.put(domain + boardUrl + "/" + boardID + stackUrl + "/" + stackID + cardUrl + "/" + cardID+"/move"+query)
                 .then(res => {
                         console.log("move success", res.data);
+                        dispatch(fetchBoardDetails(boardID));
                 })
                 .catch(err => {
 

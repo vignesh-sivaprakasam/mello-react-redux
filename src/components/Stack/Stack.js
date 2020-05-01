@@ -54,22 +54,16 @@ function Stack(props) {
 
         const cardHolderRef = useRef(null);
         const onDragEnter = () => {
-                console.log("stack drag enter", props.stack.name);
-                const  drag = getDrag();
-                setDrop({stackID: props.stack._id, cardID: null, position : cardHolderRef.current.children.length})
-                cardHolderRef.current.appendChild(drag.cardDom);
+                setDrop({stackID: props.stack._id, cardID: null, position : cardHolderRef.current.children.length});
+                boardContext.onCardMove();
         }
         const onDragOver = (ev) => ev.preventDefault();
         const onDrop = () => {
                 console.log("stack drop: :");
-                // const drag = getDrag();
-                // const drop = getDrop();
-                // if(drag.stackID == drop.stackID){
-                //         console.log("same stack drop");
-                // }
-                // boardContext.moveCard(drag.stackID, drag.cardID, drop.stackID, drop.position);
+                const drag = getDrag();
+                const drop = getDrop();
+                boardContext.moveCard(drag.stackID, drag.cardID, drop.stackID, drop.position);
         }
-
         
         return (
                 <div className="stack flex flex_column">
@@ -85,7 +79,13 @@ function Stack(props) {
                         </div>
                         <div  className="flex1 flex flex_column" >
                                 <div ref={cardHolderRef} className="card_holder">
-                                        {props.stack.card_order.map((cardID) => <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} order={props.stack.card_order}/>)}
+                                        {
+                                                props.cardOrder.map((cardID) => {
+                                                        const drag = getDrag();
+                                                        const isDragCard = drag != null && drag.cardID === cardID;
+                                                        return <Card key={cardID}  stackID={props.stack._id} card={isDragCard ? drag.card : props.stack.cards[cardID]} order={props.cardOrder}/>
+                                                })
+                                        }
                                 </div>
                                 <div className="flex1" onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter}></div>
                         </div>
