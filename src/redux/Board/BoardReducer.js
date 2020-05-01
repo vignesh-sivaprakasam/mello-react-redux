@@ -11,6 +11,12 @@ const cardReducer = (state, action) => {
                                 cards[card._id] = card;
                         });
                         return cards;
+                case EDIT_STACK_SUCCESS : 
+                        cards = Object.create(null);
+                        state.forEach(card => {
+                                cards[card._id] = card;
+                        })
+                        return cards;
                 case CREATE_CARD_SUCCESS:
                         cards = {...state}
                         cards[action.payload.cardID] = action.payload.card;
@@ -37,7 +43,11 @@ const stackReducer = (state, action) => {
                         return [...state, action.payload.stack];
                 case EDIT_STACK_SUCCESS:
                         stacks = state.map((stack) =>{
-                                return stack._id === action.payload.stackID ? action.payload.stack : stack;
+                                if(stack._id === action.payload.stackID) {
+                                        stack = action.payload.stack;
+                                        stack.cards = cardReducer(stack.cards, action);
+                                }
+                                return stack;
                         });
                         return stacks;
                 case DELETE_STACK_SUCCESS:
