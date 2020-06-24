@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
 

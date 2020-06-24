@@ -25,13 +25,13 @@ function Board(props) {
                 props.createStack(props.id, name, color);
         }
         const onCancel = () => setIsCreateDialogOpen(false);
+        const [canUpdate, setCanUpdate] = useState(false);
+        let sCardOrders = Object.create(null);
         useEffect(()=>{
                 props.fetchBoardDetails(props.id);
                 setCanUpdate(true);
         },[]);
 
-        const [canUpdate, setCanUpdate] = useState(false);
-        let sCardOrders = Object.create(null);
         const [stackCardOrders, setStackCardOrders] = useState(sCardOrders);
         if(canUpdate && props.stacks){
                 props.stacks.forEach((stack) => {
@@ -68,6 +68,16 @@ function Board(props) {
                 setStackCardOrders(newStackCardOrder);
         }
 
+        let stacksToBeRendered = null;
+        if(props.stacks != null){
+                stacksToBeRendered = props.stacks.map(stack => {
+                        let cardOrder = stackCardOrders[stack._id] ? stackCardOrders[stack._id].order : [];
+                        return (
+                                <Stack key={stack._id} stack={stack} cardOrder={cardOrder} />
+                        );
+                });               
+        }
+
         return (
                 <div className="boardView flex">
                         <div className="flex">
@@ -83,7 +93,7 @@ function Board(props) {
                                                 onCardMove  : () => onCardMove()
                                         }
                                 }>
-                                        {props.stacks != null && props.stacks.map(stack => <Stack key={stack._id} stack={stack} cardOrder={stackCardOrders[stack._id] && stackCardOrders[stack._id].order} />)}
+                                { stacksToBeRendered }
                                 </BoardContext.Provider>
                         </div>
                         <div className="flex">
