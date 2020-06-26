@@ -1,5 +1,5 @@
 import React from 'react';
-import Board from '../Board/Board';
+import Board from '../NewBoard/Board';
 import '../../common.css';
 
 const middleBarStyle = {
@@ -9,9 +9,9 @@ const middleBarStyle = {
 function MiddleBar(props) {
         return (
                 <div style={middleBarStyle} className="flex flex1">
-                <div className="boardContainer">        
-                        {props.id  ?  <Board id={props.id} /> : null}
-                </div>
+                        <div className="boardContainer">
+                                {props.id ? <Board id={props.id} /> : null}
+                        </div>
                 </div>
         );
 }

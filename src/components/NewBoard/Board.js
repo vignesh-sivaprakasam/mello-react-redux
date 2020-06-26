@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+
+import Stack from '../NewStack/Stack';
 import CreateStack from '../Stack/CreateStack';
 
 //css
@@ -18,11 +20,17 @@ function Board(props) {
                 props.fetchBoardDetails(props.id);
         }, []);
 
+        let stacks = null;
+        if(props.stacks){
+                stacks = props.stacks.map(stack => {
+                        return <Stack key={stack._id} stack={stack}/>;
+                });
+        }
         
         return (
                 <div className="boardView flex">
                         <div className="flex">
-
+                                {stacks}
                         </div>
                         <div className="flex">
                                 <div className="addStack" onClick={() => setIsCreateDialogOpen(true)}> + Add Stack</div>
