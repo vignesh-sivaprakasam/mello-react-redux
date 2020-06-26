@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import Stack from '../NewStack/Stack';
+import Stack from '../Stack/NewStack';
 import CreateStack from '../Stack/CreateStack';
 
 //css

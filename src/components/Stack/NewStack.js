@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
 
-import EditStack from '../Stack/EditStack';
+import EditStack from './EditStack';
 import CreateCard from '../Card/CreateCard';
+
+import Card from '../Card/NewCard';
 
 //css
 import '../Stack/Stack.css';
@@ -16,6 +18,14 @@ function Stack(props) {
         const [isEditStackOpen, setIsEditStackOpen] = useState(false);
 
         const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
+
+        console.log("card order : ", props);
+        let cards = null;
+        if(props.stack.card_order){
+                cards = props.stack.card_order.map(cardID => {
+                        return <Card key={cardID} card={props.stack.cards[cardID]} />;
+                });
+        }
 
         return (
                 <div className="stack flex flex_column">
@@ -41,6 +51,9 @@ function Stack(props) {
                                                 </Menu>
                                         }
                                 </div>
+                        </div>
+                        <div  className="flex1 flex flex_column card_holder">
+                                {cards}
                         </div>
 
                         <div className="stack_footer">

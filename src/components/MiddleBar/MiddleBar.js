@@ -1,5 +1,5 @@
 import React from 'react';
-import Board from '../NewBoard/Board';
+import Board from '../Board/NewBoard';
 import '../../common.css';
 
 const middleBarStyle = {
