@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
 
@@ -6,6 +6,9 @@ import EditStack from './EditStack';
 import CreateCard from '../Card/CreateCard';
 
 import Card from '../Card/NewCard';
+
+//React Drag and Drop
+import { Droppable } from 'react-beautiful-dnd';
 
 //css
 import '../Stack/Stack.css';
@@ -21,9 +24,9 @@ function Stack(props) {
 
         console.log("card order : ", props);
         let cards = null;
-        if(props.stack.card_order){
-                cards = props.stack.card_order.map(cardID => {
-                        return <Card key={cardID} card={props.stack.cards[cardID]} />;
+        if (props.stack.card_order) {
+                cards = props.stack.card_order.map((cardID, index) => {
+                        return <Card key={cardID} card={props.stack.cards[cardID]} index={index} />;
                 });
         }
 
@@ -52,9 +55,25 @@ function Stack(props) {
                                         }
                                 </div>
                         </div>
-                        <div  className="flex1 flex flex_column card_holder">
-                                {cards}
-                        </div>
+                        <Droppable droppableId={props.stack._id}>
+                                {
+                                        (provided, snapshot) => {
+                                                return (
+                                                        <div
+                                                                className="flex1 flex flex_column card_holder"
+                                                                style={{
+                                                                        background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey'
+                                                                }}
+                                                                {...provided.droppableProps}
+                                                                ref={provided.innerRef}
+                                                        >
+                                                                {cards}
+                                                                {provided.placeholder}
+                                                        </div>
+                                                )
+                                        }
+                                }
+                        </Droppable>
 
                         <div className="stack_footer">
                                 <div className="createCard circle center_margin cursor_pointer" onClick={() => setIsCreateCardOpen(true)}>

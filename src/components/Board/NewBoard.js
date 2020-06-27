@@ -8,7 +8,9 @@ import CreateStack from '../Stack/CreateStack';
 import '../Board/Board.css';
 
 //Redux
-import {fetchBoardDetails} from '../../redux/Board/BoardActions';
+import { fetchBoardDetails } from '../../redux/Board/BoardActions';
+//React Drag and Drop
+import { DragDropContext } from 'react-beautiful-dnd';
 
 function Board(props) {
         const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -21,16 +23,22 @@ function Board(props) {
         }, []);
 
         let stacks = null;
-        if(props.stacks){
+        if (props.stacks) {
                 stacks = props.stacks.map(stack => {
-                        return <Stack key={stack._id} stack={stack}/>;
+                        return <Stack key={stack._id} stack={stack} />;
                 });
         }
-        
+
+        const onDragEnd = () => {
+                console.log("Drag End:::: ");
+        }
+
         return (
                 <div className="boardView flex">
                         <div className="flex">
-                                {stacks}
+                                <DragDropContext onDragEnd={onDragEnd}>
+                                        {stacks}
+                                </DragDropContext>
                         </div>
                         <div className="flex">
                                 <div className="addStack" onClick={() => setIsCreateDialogOpen(true)}> + Add Stack</div>
