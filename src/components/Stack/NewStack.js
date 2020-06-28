@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
+
+
+import {BoardContext} from '../Board/NewBoard';
 
 import EditStack from './EditStack';
 import CreateCard from '../Card/CreateCard';
@@ -22,13 +25,17 @@ function Stack(props) {
 
         const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
 
-        console.log("card order : ", props);
+        const boardContext = useContext(BoardContext);
+
+        // console.log("card order : ", props);
         let cards = null;
         if (props.stack.card_order) {
                 cards = props.stack.card_order.map((cardID, index) => {
-                        return <Card key={cardID} card={props.stack.cards[cardID]} index={index} />;
+                        return <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} index={index} />;
                 });
         }
+        // console.log("BC :", boardContext);
+        // console.log("Stack Render", isEditStackOpen);
 
         return (
                 <div className="stack flex flex_column">
@@ -42,13 +49,17 @@ function Stack(props) {
                                                                 onClick={
                                                                         (ev) => {
                                                                                 setIsEditStackOpen(true);
+                                                                                setIsMenuOpen(false);
                                                                                 ev.stopPropagation();
                                                                         }
                                                                 }
                                                         >EditStack</MenuItem>
                                                         <MenuItem
                                                                 onClick={
-                                                                        {/*onDeleteMenu*/ }
+                                                                        ()=>{
+                                                                                setIsMenuOpen(false);
+                                                                                boardContext.deleteStack(props.stack._id);
+                                                                        }
                                                                 }
                                                         >DeleteStack</MenuItem>
                                                 </Menu>
@@ -87,6 +98,7 @@ function Stack(props) {
                                         onSave={
                                                 (name, color) => {
                                                         setIsEditStackOpen(false);
+                                                        boardContext.editStack(props.stack._id, name, color);
                                                 }
                                         }
                                         onCancel={() => setIsEditStackOpen(false)}
@@ -97,6 +109,7 @@ function Stack(props) {
                                         onCreate={
                                                 (title, description) => {
                                                         setIsCreateCardOpen(false);
+                                                        boardContext.createCard(props.stack._id, title, description);
                                                 }
                                         }
                                         onCancel={() => setIsCreateCardOpen(false)}

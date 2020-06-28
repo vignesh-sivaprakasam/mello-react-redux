@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
+
+import { BoardContext } from '../Board/NewBoard';
 
 //React Beautiful Drag and Drop 
 import { Draggable } from 'react-beautiful-dnd';
@@ -11,7 +13,8 @@ import './Card.css';
 function Card(props) {
 
         const [isMenuOpen, setIsMenuOpen] = useState(false);
-        console.log("Card prop :", props);
+        const boardContext = useContext(BoardContext);
+
         return (
                 <Draggable key={props.card._id} draggableId={props.card._id} index={props.index}>
                         {
@@ -41,7 +44,7 @@ function Card(props) {
                                                                                 <Menu>
                                                                                         <MenuItem
                                                                                                 onClick={() => {
-
+                                                                                                        boardContext.deleteCard(props.stackID, props.card._id);
                                                                                                 }}
                                                                                         >DeleteCard</MenuItem>
                                                                                 </Menu>

@@ -1,4 +1,4 @@
-import { CREATE_CARD_SUCCESS , DELETE_CARD_SUCCESS, MOVE_CARD_SUCCESS } from './CardTypes';
+import { CREATE_CARD_SUCCESS , DELETE_CARD_SUCCESS, MOVE_CARD_SUCCESS, MOVE_CARD_TEMP } from './CardTypes';
 import axios from 'axios';
 import { domain, boardUrl, stackUrl, cardUrl } from '../../domain';
 
@@ -76,5 +76,19 @@ export const moveCard = (boardID, stackID, cardID, toStackID, position) => {
                 .catch(err => {
 
                 });
+        }
+}
+
+export const moveCardTemp = (boardID, stackID, cardID, sourceIndex, toStackID, position) => {
+        return {
+                type: MOVE_CARD_TEMP,
+                payload: {
+                        boardID,
+                        stackID,
+                        cardID,
+                        sourceIndex,
+                        toStackID,
+                        position
+                }
         }
 }
