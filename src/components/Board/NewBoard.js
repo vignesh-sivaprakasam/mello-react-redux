@@ -9,8 +9,13 @@ import '../Board/Board.css';
 
 //Redux
 import { fetchBoardDetails } from '../../redux/Board/BoardActions';
+import {createStack, editStack, deleteStack} from '../../redux/Stack/StackActions';
+
 //React Drag and Drop
 import { DragDropContext } from 'react-beautiful-dnd';
+
+
+export const BoardContext = React.createContext();
 
 function Board(props) {
         const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -37,7 +42,12 @@ function Board(props) {
                 <div className="boardView flex">
                         <div className="flex">
                                 <DragDropContext onDragEnd={onDragEnd}>
-                                        {stacks}
+                                        <BoardContext.Provider value={{
+                                                editStack : (stackID, name, color) => props.editStack(props.id, stackID, name, color),
+                                                deleteStack: (stackID) => props.deleteStack(props.id, stackID)
+                                        }}>
+                                                {stacks}
+                                        </BoardContext.Provider>
                                 </DragDropContext>
                         </div>
                         <div className="flex">
@@ -71,7 +81,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
         console.log("mapDispatchToProps ::: ");
         return {
-                fetchBoardDetails: (id) => dispatch(fetchBoardDetails(id))
+                fetchBoardDetails: (id) => dispatch(fetchBoardDetails(id)),
+                createStack       : (boardID, name, color) => dispatch(createStack(boardID, name, color)),
+                editStack : (boardID, stackID, name, color) => dispatch(editStack(boardID, stackID, name, color)),
+                deleteStack : (boardID, stackID) => dispatch(deleteStack(boardID, stackID))
+
         }
 }
 
