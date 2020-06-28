@@ -10,6 +10,7 @@ import '../Board/Board.css';
 //Redux
 import { fetchBoardDetails } from '../../redux/Board/BoardActions';
 import {createStack, editStack, deleteStack} from '../../redux/Stack/StackActions';
+import {createCard, deleteCard, moveCard} from '../../redux/Card/CardActions';
 
 //React Drag and Drop
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -43,8 +44,10 @@ function Board(props) {
                         <div className="flex">
                                 <DragDropContext onDragEnd={onDragEnd}>
                                         <BoardContext.Provider value={{
-                                                editStack : (stackID, name, color) => props.editStack(props.id, stackID, name, color),
-                                                deleteStack: (stackID) => props.deleteStack(props.id, stackID)
+                                                editStack  : (stackID, name, color) => props.editStack(props.id, stackID, name, color),
+                                                deleteStack: (stackID) => props.deleteStack(props.id, stackID),
+                                                createCard : (stackID, title, description) => props.createCard(props.id, stackID, title, description),
+                                                deleteCard : (stackID, cardID) => props.deleteCard(props.id, stackID, cardID)
                                         }}>
                                                 {stacks}
                                         </BoardContext.Provider>
@@ -84,7 +87,9 @@ const mapDispatchToProps = dispatch => {
                 fetchBoardDetails: (id) => dispatch(fetchBoardDetails(id)),
                 createStack       : (boardID, name, color) => dispatch(createStack(boardID, name, color)),
                 editStack : (boardID, stackID, name, color) => dispatch(editStack(boardID, stackID, name, color)),
-                deleteStack : (boardID, stackID) => dispatch(deleteStack(boardID, stackID))
+                deleteStack : (boardID, stackID) => dispatch(deleteStack(boardID, stackID)),
+                createCard : (boardID, stackID, title, description) => dispatch(createCard(boardID, stackID, title, description)),
+                deleteCard        : (boardID, stackID, cardID) => dispatch(deleteCard(boardID, stackID, cardID))
 
         }
 }

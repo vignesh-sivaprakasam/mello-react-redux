@@ -31,7 +31,7 @@ function Stack(props) {
         let cards = null;
         if (props.stack.card_order) {
                 cards = props.stack.card_order.map((cardID, index) => {
-                        return <Card key={cardID} card={props.stack.cards[cardID]} index={index} />;
+                        return <Card key={cardID} stackID={props.stack._id} card={props.stack.cards[cardID]} index={index} />;
                 });
         }
         // console.log("BC :", boardContext);
@@ -109,6 +109,7 @@ function Stack(props) {
                                         onCreate={
                                                 (title, description) => {
                                                         setIsCreateCardOpen(false);
+                                                        boardContext.createCard(props.stack._id, title, description);
                                                 }
                                         }
                                         onCancel={() => setIsCreateCardOpen(false)}
