@@ -10,7 +10,7 @@ import '../Board/Board.css';
 //Redux
 import { fetchBoardDetails } from '../../redux/Board/BoardActions';
 import {createStack, editStack, deleteStack} from '../../redux/Stack/StackActions';
-import {createCard, deleteCard, moveCard} from '../../redux/Card/CardActions';
+import {createCard, deleteCard, moveCard, moveCardTemp} from '../../redux/Card/CardActions';
 
 //React Drag and Drop
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -35,10 +35,17 @@ function Board(props) {
                 });
         }
 
-        const onDragEnd = () => {
-                console.log("Drag End:::: ");
+        const onDragEnd = (result) => {
+
+                const {draggableId : cardID,source,destination}         = result;
+                const {droppableId : sourceStackID, index: sourceIndex} = source;
+                const {droppableId : destinationStackID, index}         = destination;
+                
+                props.moveCardTemp(props.id, sourceStackID, cardID, sourceIndex,  destinationStackID, index);
+                props.moveCard(props.id, sourceStackID, cardID, destinationStackID, index);
         }
 
+        // console.log("New Board Render");
         return (
                 <div className="boardView flex">
                         <div className="flex">
@@ -84,13 +91,14 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
         console.log("mapDispatchToProps ::: ");
         return {
-                fetchBoardDetails: (id) => dispatch(fetchBoardDetails(id)),
-                createStack       : (boardID, name, color) => dispatch(createStack(boardID, name, color)),
-                editStack : (boardID, stackID, name, color) => dispatch(editStack(boardID, stackID, name, color)),
-                deleteStack : (boardID, stackID) => dispatch(deleteStack(boardID, stackID)),
-                createCard : (boardID, stackID, title, description) => dispatch(createCard(boardID, stackID, title, description)),
-                deleteCard        : (boardID, stackID, cardID) => dispatch(deleteCard(boardID, stackID, cardID))
-
+                fetchBoardDetails: (id)                                            => dispatch(fetchBoardDetails(id)),
+                createStack      : (boardID, name, color)                          => dispatch(createStack(boardID, name, color)),
+                editStack        : (boardID, stackID, name, color)                 => dispatch(editStack(boardID, stackID, name, color)),
+                deleteStack      : (boardID, stackID)                              => dispatch(deleteStack(boardID, stackID)),
+                createCard       : (boardID, stackID, title, description)          => dispatch(createCard(boardID, stackID, title, description)),
+                deleteCard       : (boardID, stackID, cardID)                      => dispatch(deleteCard(boardID, stackID, cardID)),
+                moveCardTemp     : (boardID, stackID, cardID, sourceIndex, toStackID, position) => dispatch(moveCardTemp(boardID, stackID, cardID, sourceIndex, toStackID, position)),
+                moveCard         : (boardID, stackID, cardID, toStackID, position) => dispatch(moveCard(boardID, stackID, cardID, toStackID, position))
         }
 }
 

@@ -1,6 +1,6 @@
 import { FETCH_BOARD_DETAILS_SUCCESS } from './BoardTypes';
 import { CREATE_STACK_SUCCESS, EDIT_STACK_SUCCESS, DELETE_STACK_SUCCESS } from '../Stack/StackTypes';
-import {CREATE_CARD_SUCCESS, DELETE_CARD_SUCCESS} from '../Card/CardTypes';
+import {CREATE_CARD_SUCCESS, DELETE_CARD_SUCCESS, MOVE_CARD_TEMP} from '../Card/CardTypes';
 
 const cardReducer = (state, action) => {
         let cards;
@@ -79,8 +79,44 @@ const stackReducer = (state, action) => {
                                 return stack;
                         });
                         return stacks;
+                case MOVE_CARD_TEMP:
+                        stacks = moveCard(state, action);
+                        return stacks;
                 default:
                         return state;
+        }
+}
+
+function moveCard(state, action) {
+        let stacks;
+        if(action.payload.stackID === action.payload.toStackID){
+                stacks = state.map(stack => {
+                        if(stack._id === action.payload.stackID){
+                                stack.card_order.splice(action.payload.sourceIndex, 1);
+                                stack.card_order.splice(action.payload.position, 0, action.payload.cardID);
+                        }
+                        return stack;
+                });
+                return stacks;
+        } else {
+                let cardDetails;
+                stacks = state.map( stack => {
+                        if(stack._id === action.payload.stackID){
+                                stack.card_order.splice(action.payload.sourceIndex, 1);
+                                cardDetails = stack.cards[action.payload.cardID];
+                                delete stack.cards[action.payload.cardID];
+                        }
+                        return stack;
+                });
+
+                stacks = stacks.map( stack => {
+                        if(stack._id === action.payload.toStackID){
+                                stack.card_order.splice(action.payload.position, 0, action.payload.cardID);
+                                stack.cards[action.payload.cardID] = cardDetails;
+                        }
+                        return stack;
+                });
+                return stacks;
         }
 }
 
@@ -111,6 +147,11 @@ export const boardReducer = (state = {}, action) => {
                                 stacks : stackReducer(state.stacks, action)
                         }
                 case DELETE_CARD_SUCCESS : 
+                        return {
+                                ...state,
+                                stacks : stackReducer(state.stacks, action)
+                        }
+                case MOVE_CARD_TEMP:
                         return {
                                 ...state,
                                 stacks : stackReducer(state.stacks, action)

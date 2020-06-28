@@ -15,7 +15,6 @@ function Card(props) {
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const boardContext = useContext(BoardContext);
 
-        console.log("Card prop :", props);
         return (
                 <Draggable key={props.card._id} draggableId={props.card._id} index={props.index}>
                         {
