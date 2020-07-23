@@ -18,7 +18,7 @@ function Card(props) {
         const boardContext = useContext(BoardContext);
 
         const toggleMenu = () => {
-                setIsMenuOpen(!isMenuOpen);
+                setIsMenuOpen(isMenuOpen=> !isMenuOpen);
         }
         const onDeleteMenu = () =>{
                 boardContext.deleteCard(props.stackID, props.card._id);
