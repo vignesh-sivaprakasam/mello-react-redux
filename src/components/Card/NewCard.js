@@ -37,7 +37,7 @@ function Card(props) {
                                                         <div className="card_header flex">
                                                                 <div className="card_title flex1">{props.card.title}</div>
                                                                 <div className="card_menu flex cursor_pointer"
-                                                                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                                                        onClick={() => setIsMenuOpen(isMenuOpen=> !isMenuOpen)}
                                                                 >
                                                                         <img src={require("../TopBar/3dotsHori.png")} height="32" width="32" alt="" />
                                                                         {isMenuOpen &&

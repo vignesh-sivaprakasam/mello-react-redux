@@ -41,7 +41,7 @@ function Stack(props) {
                 <div className="stack flex flex_column">
                         <div style={{ backgroundColor: props.stack.color }} className="stack_header flex">
                                 <div id="stackName" className="stack_name">{props.stack.name}</div>
-                                <div className="stack_menu cursor_pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                                <div className="stack_menu cursor_pointer" onClick={() => setIsMenuOpen(isMenuOpen=> !isMenuOpen)}>
                                         <img src={require("../TopBar/3dotsHori.png")} height="32" width="32" alt="" />
                                         {isMenuOpen &&
                                                 <Menu>

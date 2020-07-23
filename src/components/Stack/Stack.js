@@ -14,7 +14,7 @@ function Stack(props) {
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const [isEditStackOpen, setIsEditStackOpen] = useState(false);
         const toggleMenu = () => {
-                setIsMenuOpen(!isMenuOpen);
+                setIsMenuOpen(isMenuOpen=> !isMenuOpen);
         }
         const onEditMenu = (ev) => {
                 setIsEditStackOpen(true);
