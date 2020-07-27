@@ -28,8 +28,9 @@ function Card(props) {
                                                         style={{
                                                                 userSelect: 'none',
                                                                 minHeight: 50,
-                                                                backgroundColor: snapshot.isDragging ? "#263B4A" : "",
-                                                                color : snapshot.isDragging ? "white" : "",
+                                                                border : snapshot.isDragging ? "2px solid #00aaff": "",
+                                                                // backgroundColor: snapshot.isDragging ? "#263B4A" : "",
+                                                                // color : snapshot.isDragging ? "white" : "",
                                                                 ...provided.draggableProps.style
                                                         }}
                                                 >
