@@ -28,9 +28,9 @@ function Card(props) {
                                                         style={{
                                                                 userSelect: 'none',
                                                                 minHeight: 50,
-                                                                border: '1px solid',
-                                                                backgroundColor: snapshot.isDragging ? "#263B4A" : "#456C86",
-                                                                color: 'white',
+                                                                border : snapshot.isDragging ? "2px solid #00aaff": "",
+                                                                // backgroundColor: snapshot.isDragging ? "#263B4A" : "",
+                                                                // color : snapshot.isDragging ? "white" : "",
                                                                 ...provided.draggableProps.style
                                                         }}
                                                 >
@@ -41,6 +41,7 @@ function Card(props) {
                                                                 >
                                                                         <img src={require("../TopBar/3dotsHori.png")} height="32" width="32" alt="" />
                                                                         {isMenuOpen &&
+                                                                                <div>
                                                                                 <Menu>
                                                                                         <MenuItem
                                                                                                 onClick={() => {
@@ -48,6 +49,7 @@ function Card(props) {
                                                                                                 }}
                                                                                         >DeleteCard</MenuItem>
                                                                                 </Menu>
+                                                                                </div>
                                                                         }
                                                                 </div>
                                                         </div>
