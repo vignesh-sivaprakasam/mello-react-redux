@@ -73,7 +73,7 @@ function Stack(props) {
                                                         <div
                                                                 className="flex1 flex flex_column card_holder"
                                                                 style={{
-                                                                        background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey'
+                                                                        background: snapshot.isDraggingOver ? 'lightblue' : ''
                                                                 }}
                                                                 {...provided.droppableProps}
                                                                 ref={provided.innerRef}

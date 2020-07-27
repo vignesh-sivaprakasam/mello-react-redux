@@ -2,8 +2,10 @@
         border-radius: 10px;
         background-color: white;
         padding: 20px;
+        border: 1px solid var(--primary_color)
 }
 .card_header{
+        /* color      : black; */
         display    : flex;
         align-items: center;
 }

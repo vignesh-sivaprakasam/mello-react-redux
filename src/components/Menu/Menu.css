@@ -1,10 +1,11 @@
 .menu_dd{
-        border-radius   : 10px;
-        box-shadow      : 0px 2px 10px 0px #ccc;
-        background      : white;
-        padding         : 1px;
-        margin          : 2px;
-        color: black;
+        border-radius : 10px;
+        box-shadow    : 0px 2px 10px 0px #ccc;
+        background    : white;
+        padding       : 1px;
+        margin        : 2px;
+        font-size     : 16px;
+        color         : black;
 }
 .menu_item{
         padding   : 10px;

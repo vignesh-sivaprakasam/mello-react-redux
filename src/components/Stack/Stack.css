@@ -1,16 +1,22 @@
 .stack{
-        background-color    : aliceblue;
-        /* min-width           : 100px;
-        min-height          : 100px; */
-        margin-left         : 5px;
-        border              : 1px solid black;
-        background-color    : #edf0f1;
-        width               : 320px;
+        background-color : aliceblue;
+        /* min-width     : 100px;
+        min-height       : 100px; */
+        margin-left      : 5px;
+        border           : 1px solid black;
+        border-radius    : 10px;
+        background-color : #edf0f1;
+        width            : 320px;
 }
 .stack_header{
-        height    : 50px;
-        padding   : 10px;
-        color     : white;
+        height                    : 50px;
+        padding                   : 10px;
+        color                     : white;
+        font-size : 21px;
+        align-items: center;
+        border-radius             : inherit;
+        border-bottom-left-radius : revert;
+        border-bottom-right-radius: revert;
 }
 .stack_footer {
         padding: 10px;
@@ -27,5 +33,6 @@
 }
 
 .stack_name{
-        flex: 1 1 auto;
+        flex      : 1 1 auto;
+        text-align: center;
 }
