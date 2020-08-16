@@ -25,7 +25,7 @@ const fontWeight = {
 function TopBar() {
         return (
                 <div className="topBar">
-                        <div className="home">
+                        <div className="home" onClick={() => window.open(window.location.origin, "_self")}>
                                 <img src={require("./home.png")} alt="Home" width="50" height="35" />
                         </div>
                         <div className="boardName">
